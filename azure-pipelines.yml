@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 trigger:
 - main
 
@@ -34,3 +35,54 @@ steps:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
     environmentServiceNameAzureRM: 'Azure Teste'
+=======
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Provisionamento
+  displayName: Provisionamento ACR
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+        vmImage: ubuntu-latest
+        steps:
+        - task: TerraformInstaller@0
+          inputs:
+            terraformVersion: '0.12.3'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            backendServiceArm: 'Azure Teste'
+            backendAzureRmResourceGroupName: 'cloud-shell-storage-eastus'
+            backendAzureRmStorageAccountName: 'cs210033fff9facd07f'
+            backendAzureRmContainerName: 'appservice'
+            backendAzureRmKey: 'app-acr'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            environmentServiceNameAzureRM: 'Azure Teste'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            environmentServiceNameAzureRM: 'Azure Teste'
+>>>>>>> f9d6fcd71566b72b66b9db4df554eb72b0b83e22
