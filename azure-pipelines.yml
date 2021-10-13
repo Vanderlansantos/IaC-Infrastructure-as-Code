@@ -13,33 +13,33 @@ stages:
     displayName: Build
     pool:
         vmImage: ubuntu-latest
-steps:
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: '0.12.3'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
-    backendServiceArm: 'Azure Teste'
-    backendAzureRmResourceGroupName: 'cloud-shell-storage-eastus'
-    backendAzureRmStorageAccountName: 'cs210033fff9facd07f'
-    backendAzureRmContainerName: 'appservice'
-    backendAzureRmKey: 'app-acr'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'validate'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
-    environmentServiceNameAzureRM: 'Azure Teste'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
-    environmentServiceNameAzureRM: 'Azure Teste'
+        steps:
+        - task: TerraformInstaller@0
+          inputs:
+            terraformVersion: '0.12.3'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            backendServiceArm: 'Azure Teste'
+            backendAzureRmResourceGroupName: 'cloud-shell-storage-eastus'
+            backendAzureRmStorageAccountName: 'cs210033fff9facd07f'
+            backendAzureRmContainerName: 'appservice'
+            backendAzureRmKey: 'app-acr'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            environmentServiceNameAzureRM: 'Azure Teste'
+        - task: TerraformTaskV2@2
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/AzureContainerRegistry-ACR - Terraform- AzureDevOps'
+            environmentServiceNameAzureRM: 'Azure Teste'
