@@ -1,0 +1,49 @@
+trigger: none
+
+pool: 
+ vmImage: ubuntu-latest
+
+stages:
+    - stage: Terraform
+      jobs:
+        - job: Terraform
+          continueOnError: false
+          steps:
+            - task: TerraformInstaller@0
+              displayName: 'install'
+              inputs:
+               terraformVersion: '0.12.3'
+            - task: TerraformTaskV2@2
+              inputs:
+                provider: 'azurerm'
+                command: 'init'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/App Service Azure - Terraform/App Service - Terraform AzureDevOps'
+                backendServiceArm: 'AzureEstudante'
+                backendAzureRmResourceGroupName: ''
+                backendAzureRmStorageAccountName: ''
+                backendAzureRmContainerName: 'terraform'
+                backendAzureRmKey: 'terraform'
+            - task: TerraformTaskV2@2
+              name: terraformValidete
+              displayName: 'validade'
+              inputs:
+                provider: 'azurerm'
+                command: 'validate'
+                workingDirectory: '/App Service Azure - Terraform/App Service - Terraform AzureDevOps'
+            - task: TerraformTaskV2@2
+              name: terraformPlan
+              displayName: 'plan'
+              inputs:
+                provider: 'azurerm'
+                command: 'plan'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/App Service Azure - Terraform/App Service - Terraform AzureDevOps'
+                environmentServiceNameAzureRM: 'AzureEstudante'
+            - task: TerraformTaskV2@2
+              name: TerraformApply
+              displayName: 'apply'
+              inputs:
+                provider: 'azurerm'
+                command: 'apply'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/App Service Azure - Terraform/App Service - Terraform AzureDevOps'
+                commandOptions: '-auto-approve'
+                environmentServiceNameAzureRM: 'AzureEstudante'
