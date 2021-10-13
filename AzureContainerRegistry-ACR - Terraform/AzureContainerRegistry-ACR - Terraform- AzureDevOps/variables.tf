@@ -9,6 +9,6 @@ variable "location"  {
 }
 
 variable "azurecontainerregistry" {
-    default      = "acrteste03"
+    default      = "acrteste05"
     description  = "Acr Azure"
 }
