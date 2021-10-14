@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+steps:
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.12.3'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/AKS - terraform/AKS - terraform - AzureDevOps'
+    backendServiceArm: 'Azure Teste'
+    backendAzureRmResourceGroupName: ''
+    backendAzureRmStorageAccountName: ''
+    backendAzureRmContainerName: ''
+    backendAzureRmKey: 'app-aks'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/AKS - terraform/AKS - terraform - AzureDevOps'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/AKS - terraform/AKS - terraform - AzureDevOps'
+    environmentServiceNameAzureRM: 'Azure Teste'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/AKS - terraform/AKS - terraform - AzureDevOps'
+    environmentServiceNameAzureRM: 'Azure Teste'
