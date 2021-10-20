@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+steps:
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.12.3'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/New User Azure AD'
+    backendServiceArm: 'Azure'
+    backendAzureRmResourceGroupName: 'cloud-shell-storage-eastus'
+    backendAzureRmStorageAccountName: ''
+    backendAzureRmContainerName: 'azure'
+    backendAzureRmKey: 'userterraform'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/New User Azure AD'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/New User Azure AD'
+    environmentServiceNameAzureRM: 'Azure'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/New User Azure AD'
+    environmentServiceNameAzureRM: 'Azure'
