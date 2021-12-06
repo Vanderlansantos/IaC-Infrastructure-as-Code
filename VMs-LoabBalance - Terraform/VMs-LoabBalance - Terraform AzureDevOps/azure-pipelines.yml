@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+steps:
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.15.4'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/VMs-LoabBalance - Terraform'
+    backendServiceArm: 'Azure Vanderlan'
+    backendAzureRmResourceGroupName: 'cloud-shell-storage-eastus'
+    backendAzureRmStorageAccountName: 'xxxxxxxxxxxx'
+    backendAzureRmContainerName: 'azure'
+    backendAzureRmKey: 'userterraform'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/VMs-LoabBalance - Terraform'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/VMs-LoabBalance - Terraform'
+    environmentServiceNameAzureRM: 'Azure Vanderlan'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/VMs-LoabBalance - Terraform'
+    environmentServiceNameAzureRM: 'Azure Vanderlan'
