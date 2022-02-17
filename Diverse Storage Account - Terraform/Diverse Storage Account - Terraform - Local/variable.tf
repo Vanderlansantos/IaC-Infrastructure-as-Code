@@ -8,7 +8,6 @@ variable "location"  {
   description = "Location Azure"
 }
 
-
 variable "storage_account_name"{
     default = "storageteste0101"
     description = "Nome do storage account"
